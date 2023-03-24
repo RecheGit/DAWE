@@ -1,0 +1,22 @@
+.encabezado {
+  color: rebeccapurple;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+main {
+  border: 1px solid black;
+  display: flex;
+}
+
+.column {
+  float: left;
+}
+
+.left {
+  width: 75%;
+}
+
+.right {
+  width: 25%;
+}
