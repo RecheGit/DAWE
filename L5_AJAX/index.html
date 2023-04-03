@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+
+<body>
+
+    <select id="ISBN">
+
+        <option value="selecciona"> Selecciona un ISBN</option>
+        <option value="9781491920497">9781491920497</option>
+        <option value="1491910399" >1491910399</option>
+        <option value="1491946008">1491946008</option>
+        <option value="1491978236">1491978236 </option>
+        <option value="9781491906187">9781491906187</option>
+      </select>
+
+      <button type="button" onclick="llamada();">Consulta su información</button>
+
+
+      <!-- CREAMOS LAS REFERENCIAS PARA INTRODUCIR LOS ELEMENTOS-->
+
+      <p id="tit"></p>
+      <p id="Titulo"></p>
+
+
+      <p id="aut"></p>
+      <p id="Autores"></p>
+
+
+      <p id="im"> </p>
+      <p id="Imagen"> </p>
+      
+
+
+
+      <script>
+
+        //Función para obtener valor del ComboBox
+        function getOption() {
+        selectElement = document.querySelector('#ISBN');
+        output = selectElement.value;
+        return output;
+        }
+
+        //Funcíon principal
+        function llamada(){
+
+            const isbn = getOption();
+            var url = "https://openlibrary.org/api/books?bibkeys=ISBN:"+isbn+"&jscmd=details&format=json"
+
+            
+            //Uso de Fetch
+            fetch(url)
+
+            .then( response => {
+                if(response.status == 200) {
+                console.log("Respuesta Correcta");
+                return response.text();
+                } else {
+                throw "Respuesta incorrecta del servidor" 
+                }
+            })
+
+
+            .then( responseText => {
+
+                //CONSEGUIMOS TÍTULO
+                let title = JSON.parse(responseText)['ISBN:'+isbn]["details"]["title"];
+
+                let titString = document.getElementById('tit');
+                titString.innerHTML = "Título: "
+                
+                let tituloISBN = document.getElementById('Titulo');
+                tituloISBN.innerHTML = title;
+
+                //CONSEGUIMOS AUTOR
+                let arrayAutores =  JSON.parse(responseText)['ISBN:'+isbn]["details"]["authors"];
+                let authors =[]
+
+                let aut = document.getElementById('aut');
+                aut.innerHTML = "Autores: "
+
+                for (let i = 0; i <arrayAutores["length"]; i++) {
+                        authors.push(arrayAutores[i]["name"])
+                        let autores = document.getElementById('Autores');
+                        autores.innerHTML = authors;
+                    }
+                    for (let i = 0; i <authors["length"]; i++) {
+                        console.log(authors[i])
+                    }
+
+                //CONSEGUIMOS IMAGEN
+                let imagen =  JSON.parse(responseText)['ISBN:'+isbn]["thumbnail_url"];
+                imagen = imagen.replace("-S","-L")
+                imagen = "<img src="+imagen+">"
+
+                let im = document.getElementById('im');
+                im.innerHTML = "Imagen: "
+                let img = document.getElementById('Imagen');
+                img.innerHTML = imagen;
+                    
+            })
+            .catch( err => {
+                console.log(err);
+            });  
+        }     
+                
+      </script>
+
+
+
+</body>
+
+
+</html>
