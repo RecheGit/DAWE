@@ -4,7 +4,8 @@ var path = require("path");
 // Modulo para realizas validaciones en formularios
 const { check, validationResult } = require('express-validator');
 // Modulo para conectar con una base de datos MongoDB
-const mongojs = require('mongojs')
+const mongojs = require('mongojs');
+const { Console } = require("console");
 // Objeto exportado de mongojs para identificar un elemento de una tabla de una BD
 var ObjectId = mongojs.ObjectId;
 
@@ -33,6 +34,7 @@ app.use(function (req, res, next) {
 	next();
  });
 
+ 
 app.post('/users/add', [
 	check("first_name", "El nombre es obligatorio").notEmpty(),
 	check("last_name", "El apellido es obligatorio").notEmpty(),
@@ -88,6 +90,39 @@ app.get("/", function(req, res) { // peticion y respuesta como parametros
     });
     
 });
+
+//EDIT USER
+
+app.post('/users/select/:id', function(req, res) {
+	db.users.findOne({_id: ObjectId(req.params.id)}, function(err, response) {
+		if(err) {
+			console.log(err);
+			console.log("NO ENCUENTRA USU");
+		}
+		else{
+			console.log("funciona");
+			console.log(response);
+			res.send(response);
+		}
+
+	});
+});/*
+app.get("/", function(req, res) { // peticion y respuesta como parametros
+    db.users.find(function(err, docs) {
+    	if(err) {
+    		console.log(err);
+    	} else {
+    		console.log(docs);
+    		// para rellenar la plantilla
+    		res.render('index', {
+			title: 'clientes',
+			users: docs
+    		});
+    	}
+    });
+    
+});
+*/
     
 app.listen(3002, function(){ // a la escucha en el puerto 3001
 	console.log("Servidor lanzado en el puerto 3002");

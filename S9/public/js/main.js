@@ -1,3 +1,5 @@
+//const { response } = require("express");
+
 window.onload = function() {
 	let links = document.getElementsByClassName("deleteUser");
 	let linksEdit = document.getElementsByClassName("editUser");
@@ -27,25 +29,39 @@ function deleteUser(event){
 	} else {
 		return false;
 	}
-/*
-	function editUser(event){
-		var confirmation = confirm('edit?');
-		if(confirmation){
-			var url = '/users/edit/' + event.target.getAttribute('data-id');
-			var consulta = new XMLHttpRequest();
-			consulta.open("EDIT", url);
-			consulta.onload = function() {
-				if (consulta.status == 200) {
-					window.location.replace('/')
-				}
-			};
-			consulta.send();
-		} else {
-			return false;
-		}
-
-	}
-	*/
-
 }
+
+function editUser(event) {
+	var confirmation = confirm('Are you sure?');
+	var url = '/users/select/' + event.target.getAttribute('data-id');
+	if (confirmation) {
+		
+		fetch('/users/select/' + event.target.getAttribute('data-id'), {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(response => {
+
+			return response.text();
+		}
+		)
+		.then((data) => {
+			
+			console.log(data)
+			//let title = JSON.parse(data)['ISBN:'+isbn]["details"]["title"]
+			var nombre = JSON.parse(data)['first_name'];
+			console.log(nombre);
+		}
+		);
+	} 
+
+
+	else {
+		return false;
+	}
+}
+
+
+
 
