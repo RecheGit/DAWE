@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>LABORATORIO 10</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+
+<body>
+    <fieldset>
+        <legend>Datos del cliente</legend>
+        <p></p>
+        <label>Nombre: <input type="text" id="idNombre" placeholder="Introduce tu nombre" autofocus></label>
+        <p></p>
+        <label>Telefono: <input type="tel" id="idTelefono" placeholder="Patron: 123-456-789"></label>
+        <p></p>
+        <label>E-mail: <input type="email" id="idEmail" placeholder="Introduce tu direccion de correo electronico" size="50"></label>
+        <p></p>
+    </fieldset>
+    <fieldset>
+        <legend>Libros</legend>
+        <p></p>
+        <label><input type="text" id="idLibros" list="sugerenciaLibros"></label>
+        <label> Cantidad (Max 5): <input type="number" id="idCantidad" min="1" max="5" step="1"></label>
+        <p></p>
+    </fieldset>
+    <datalist id="sugerenciaLibros">
+        <option value="Libro1">
+        <option value="Libro2">
+        <option value="Libro3">
+        <option value="Libro4">
+        <option value="Libro5">
+    </datalist>
+    <form id="upload" action="index.php" method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <p></p>
+            <legend>File Upload</legend>
+            <div>
+                <label>Elige los ficheros a subir:<input type="file" id="fileselect" multiple></label>
+                <div id="filedrag">o arrastra aqui los ficheros</div>
+            </div>
+        </fieldset>
+    </form>
+    <input type="submit" id="enviar" value="Enviar">
+    <h4>Mensajes de estado</h4>
+    <div id="messages"></div>
+    <script src="filedrag.js"></script>
+</body>
+</html>
